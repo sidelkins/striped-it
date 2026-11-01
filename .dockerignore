@@ -1,0 +1,11 @@
+node_modules
+dist
+.git
+.gitignore
+*.tsbuildinfo
+*.local
+.DS_Store
+Dockerfile
+docker-compose.yml
+pnpm-lock.yaml
+pnpm-workspace.yaml

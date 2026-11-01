@@ -74,6 +74,15 @@ bun server.ts        # or Bun
 # PORT=3000 HOST=127.0.0.1 node server.ts
 ```
 
+### Docker
+
+```bash
+docker compose up -d --build                     # http://localhost:8080
+SWINGSPEED_PORT=3000 docker compose up -d        # or pick another host port
+```
+
+The image is a multi-stage build: it builds `dist/` and then runs `server.ts` on Node 24. The container runs as a non-root user with a read-only filesystem, no Linux capabilities, and a `/healthz` health check. If you'd rather not use Compose: `docker build -t swingspeed . && docker run -p 8080:8080 swingspeed`.
+
 The server only serves `dist/`, with an SPA fallback, long-lived caching for hashed `/assets/*` files, and a `/healthz` endpoint. Video data never reaches it.
 
 **HTTPS matters:** browsers only expose WebCodecs in a secure context (`https://` or `localhost`). If you serve over plain HTTP on a LAN IP, the app still works, but it falls back to `<video>`-element seeking with a reduced-accuracy warning. Put the server behind a TLS proxy (Caddy, nginx, a Cloudflare tunnel) for production use.
